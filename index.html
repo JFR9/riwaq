@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#101827">
+  <meta name="description" content="بوابة الملازم الجامعية — موادك وملازمك في مكان واحد.">
+  <title>رِواق | الملازم الجامعية</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script defer src="config.js"></script>
+  <script defer src="app.js"></script>
+</head>
+<body>
+  <div class="ambient ambient-one"></div><div class="ambient ambient-two"></div>
+  <header class="topbar">
+    <a class="brand" href="./" aria-label="رواق - الرئيسية">
+      <span class="brand-mark"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3.5 5.5c3.3-1.2 6-.8 8.5 1v13c-2.5-1.8-5.2-2.2-8.5-1zM20.5 5.5c-3.3-1.2-6-.8-8.5 1v13c2.5-1.8 5.2-2.2 8.5-1z"/></svg></span>
+      <span><strong id="site-title">رِواق</strong><small>بوابة الملازم الجامعية</small></span>
+    </a>
+    <nav class="top-actions">
+      <button class="account-button" id="account-open"><span class="account-avatar" id="account-avatar">♙</span><span id="account-label">تسجيل الدخول</span></button>
+      <a class="admin-link" id="admin-shortcut" href="admin.html" hidden><span class="tiny-lock">⌑</span> لوحة الإدارة</a>
+      <button class="icon-button" id="theme-toggle" aria-label="تغيير المظهر" title="تغيير المظهر">☼</button>
+    </nav>
+  </header>
+
+  <main class="container">
+    <section class="hero">
+      <div class="hero-copy">
+        <span class="eyebrow"><span class="pulse"></span> كل موادك في مكان واحد</span>
+        <h1>دراستك تصير <span class="gradient-text">أوضح وأسهل.</span></h1>
+        <p>تصفّح المواد واعثر على ملازمك بسرعة. التصفح متاح للجميع، وإنشاء الأدخل اسمك وبريدك الإلكتروني وكلمة المرور لإنشاء حساب اختياري.</p>
+        <div class="hero-stats">
+          <div><strong id="stat-courses">2</strong><span>كورسات</span></div>
+          <i></i><div><strong id="stat-subjects">—</strong><span>مواد</span></div>
+          <i></i><div><strong id="stat-notes">—</strong><span>ملازم</span></div>
+        </div>
+      </div>
+      <div class="hero-art" aria-hidden="true">
+        <div class="orbit orbit-a"></div><div class="orbit orbit-b"></div>
+        <div class="book-illustration"><div class="book-spine"></div><div class="book-page page-left"><span></span><span></span><span></span><span></span></div><div class="book-page page-right"><b></b><span></span><span></span><span></span></div></div>
+        <div class="float-chip chip-top">PDF <span>↗</span></div><div class="float-chip chip-bottom">✦ تعلّم بذكاء</div>
+      </div>
+    </section>
+
+    <section class="search-section">
+      <div class="section-heading"><div><span class="eyebrow muted">ابحث ووصل بسرعة</span><h2>شنو تحتاج اليوم؟</h2></div><span class="result-count" id="search-result-count"></span></div>
+      <label class="search-box"><span class="search-icon">⌕</span><input id="global-search" type="search" placeholder="ابحث عن مادة أو ملزمة أو محاضرة..." autocomplete="off"><kbd>بحث</kbd><button id="clear-search" class="clear-search" aria-label="مسح البحث" hidden>×</button></label>
+    </section>
+
+    <section class="courses-section">
+      <div class="section-heading section-heading-row"><div><span class="eyebrow muted">اختَر مسارك</span><h2>الكورسات الدراسية</h2></div><div class="view-switch" role="group" aria-label="طريقة عرض المواد"><button class="view-btn active" data-view="grid" title="عرض البطاقات" aria-label="عرض البطاقات">▦</button><button class="view-btn" data-view="list" title="عرض القائمة" aria-label="عرض القائمة">☷</button></div></div>
+      <div class="semester-tabs" id="semester-tabs" role="tablist" aria-label="الكورسات">
+        <button class="semester-tab active" data-semester="1" role="tab" aria-selected="true"><span class="tab-number">01</span><span><strong>الكورس الأول</strong><small>الفصل الدراسي الأول</small></span><span class="tab-arrow">↙</span></button>
+        <button class="semester-tab" data-semester="2" role="tab" aria-selected="false"><span class="tab-number">02</span><span><strong>الكورس الثاني</strong><small>الفصل الدراسي الثاني</small></span><span class="tab-arrow">↙</span></button>
+      </div>
+      <div class="content-toolbar"><div><h3 id="semester-title">مواد الكورس الأول</h3><p id="semester-subtitle">اختر المادة لعرض الملازم المتوفرة</p></div><span class="pill" id="subject-count">جارٍ التحميل...</span></div>
+      <div id="subjects" class="subjects-grid"><div class="loading-card"><span class="loader"></span> جارٍ تحميل المواد...</div></div>
+      <div id="empty-state" class="empty-state" hidden><div class="empty-icon">⌕</div><h3>ما لقينا نتائج</h3><p>جرّب كلمة ثانية أو اختر كورساً مختلفاً.</p><button class="button button-secondary" id="reset-search">عرض كل المواد</button></div>
+    </section>
+
+    <section class="recent-section" id="recent-section" hidden>
+      <div class="section-heading"><div><span class="eyebrow muted">كمّل من حيث وصلت</span><h2>شوهدت مؤخراً</h2></div><button class="text-button" id="clear-recent">مسح السجل</button></div>
+      <div id="recent-list" class="recent-list"></div>
+    </section>
+    <footer class="footer"><div class="footer-brand"><span class="brand-mark small-mark">ر</span><span>رِواق</span></div><p id="footer-tagline">مرجعك الدراسي، مرتب وبسيط.</p><div class="footer-actions"><button class="text-button" id="image-pdf-open" type="button">▧ تحويل الصور إلى PDF</button><details class="contact-menu" id="contact-menu"><summary>تواصل معنا <span>⌄</span></summary><div class="contact-options"><p id="contact-message">للاستفسارات والاقتراحات</p><a id="contact-telegram" href="#" target="_blank" rel="noopener" hidden>✈ تيليجرام</a><a id="contact-email" href="#" hidden>✉ البريد الإلكتروني</a><span id="contact-empty">سيتم إضافة وسائل التواصل قريبًا.</span></div></details></div><span class="footer-note">صُنع لخدمة الطلبة <span>✦</span></span></footer>
+  </main>
+
+  <dialog id="auth-dialog" class="auth-dialog">
+    <div class="auth-head"><div><span class="eyebrow muted">حساب رِواق</span><h2 id="auth-title">أهلاً بعودتك</h2><p id="auth-subtitle">أدخل بريدك الإلكتروني وكلمة المرور فقط.</p></div><button class="icon-button" id="auth-close" aria-label="إغلاق">×</button></div>
+    <div id="auth-forms">
+      <div class="auth-tabs" role="tablist"><button class="auth-tab active" type="button" data-auth-mode="login">تسجيل الدخول</button><button class="auth-tab" type="button" data-auth-mode="signup">إنشاء حساب</button></div>
+      <form id="auth-form" class="auth-form">
+        <label id="display-name-wrap" hidden>الاسم<input id="auth-name" type="text" maxlength="80" autocomplete="name" placeholder="اكتب اسمك الكامل"></label>
+        <label>البريد الإلكتروني<input id="auth-email" type="email" required autocomplete="email" placeholder="name@example.com"></label>
+        <label>كلمة المرور<input id="auth-password" type="password" required minlength="8" autocomplete="current-password" placeholder="8 أحرف على الأقل"></label>
+        <button class="button auth-submit" id="auth-submit" type="submit">تسجيل الدخول</button>
+        <button class="auth-forgot" id="auth-forgot" type="button">نسيت كلمة المرور؟</button>
+      </form>
+      <p id="auth-message" class="auth-message" role="status" aria-live="polite"></p>
+      <p class="auth-note">التصفح لا يتطلب حساباً. لا تستخدم كلمة مرور حسابك الجامعي أو أي حساب آخر.</p>
+    </div>
+    <div id="account-panel" hidden><div class="account-welcome"><span class="account-avatar large" id="account-panel-avatar">♙</span><div><strong id="account-panel-name">الطالب</strong><small id="account-panel-email"></small></div></div><p class="auth-note">حسابك جاهز. يمكنك متابعة تصفح المواد والملازم، وسنضيف مزايا الحساب تدريجياً.</p><button class="button auth-submit" id="account-signout" type="button">تسجيل الخروج</button><p id="account-message" class="auth-message" role="status"></p></div>
+  </dialog>
+
+  <dialog id="image-pdf-dialog" class="auth-dialog utility-dialog"><div class="auth-head"><div><span class="eyebrow muted">أداة مجانية داخل رِواق</span><h2>تحويل الصور إلى PDF</h2><p>اختر صورة واحدة أو عدة صور، رتّبها حسب اختيارك، ثم أنشئ ملف PDF على جهازك.</p></div><button class="icon-button" id="image-pdf-close" aria-label="إغلاق">×</button></div><div class="utility-body"><label class="upload-zone" for="image-pdf-files">＋ اختر الصور (JPG أو PNG)<input id="image-pdf-files" type="file" accept="image/png,image/jpeg" multiple></label><div id="image-pdf-preview" class="image-pdf-preview"></div><label>حجم الصفحة<select id="pdf-page-size"><option value="a4">A4</option><option value="letter">Letter</option><option value="fit">حسب أبعاد الصورة</option></select></label><button class="button auth-submit" id="image-pdf-create" type="button" disabled>إنشاء وتحميل PDF</button><p id="image-pdf-message" class="auth-message" role="status"></p><small class="utility-privacy">تتم المعالجة داخل متصفحك؛ الصور لا تُرفع إلى رِواق.</small></div></dialog>
+  <dialog id="subject-dialog" class="subject-dialog"><div class="dialog-head"><div><span class="eyebrow muted">مكتبة المادة</span><h2 id="dialog-title">اسم المادة</h2><p id="dialog-description"></p></div><button class="icon-button" id="close-dialog" aria-label="إغلاق">×</button></div><div class="dialog-tools"><span class="pill" id="dialog-note-count">0 ملازم</span><label class="dialog-search"><span>⌕</span><input id="note-search" type="search" placeholder="ابحث داخل ملازم المادة..."></label></div><div id="notes-list" class="notes-list"></div><div id="notes-empty" class="empty-inline" hidden>لا توجد ملازم تطابق البحث.</div></dialog>
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+</body>
+</html>

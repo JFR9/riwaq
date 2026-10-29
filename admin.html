@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#101827"><title>لوحة الإدارة | رِواق</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css"><link rel="stylesheet" href="admin.css">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script defer src="config.js"></script><script defer src="admin.js"></script>
+</head>
+<body class="admin-body"><header class="topbar"><a class="brand" href="./"><span class="brand-mark"><svg viewBox="0 0 24 24"><path d="M3.5 5.5c3.3-1.2 6-.8 8.5 1v13c-2.5-1.8-5.2-2.2-8.5-1zM20.5 5.5c-3.3-1.2-6-.8-8.5 1v13c2.5-1.8 5.2-2.2 8.5-1z"/></svg></span><span><strong>رِواق</strong><small>إدارة المحتوى</small></span></a><div class="top-actions"><a class="admin-link" href="./">← العودة للموقع</a><button class="icon-button" id="admin-theme" aria-label="تغيير المظهر">☼</button></div></header>
+<main class="admin-container">
+  <section id="setup-warning" class="notice notice-warning" hidden><strong>يلزم إعداد قاعدة البيانات أولاً</strong><p>الموقع العام يعمل ببيانات تجريبية. لتفعيل لوحة الإدارة، اتبع خطوات إعداد Supabase في ملف README.md ثم أكمل الإعداد في config.js.</p><a href="README.md" target="_blank" rel="noopener">قراءة دليل الإعداد ↗</a></section>
+  <section id="login-panel" class="login-wrap"><div class="login-card"><div class="login-icon">⌑</div><span class="eyebrow muted">مساحة خاصة بالمسؤول</span><h1>أهلاً بعودتك</h1><p>سجّل الدخول بحساب الإدارة المصرّح به لإدارة الكورسات والمواد والملازم.</p><form id="login-form"><label>البريد الإلكتروني<input id="login-email" type="email" autocomplete="username" required placeholder="admin@example.com"></label><label>كلمة المرور<input id="login-password" type="password" autocomplete="current-password" required placeholder="كلمة مرور حسابك"></label><button class="button button-primary" type="submit" id="login-submit">تسجيل الدخول</button><p class="form-message" id="login-message" role="status"></p></form><a class="back-link" href="./">← الرجوع إلى الموقع</a></div></section>
+  <section id="dashboard" hidden>
+    <div class="admin-welcome"><div><span class="eyebrow muted">مركز التحكم</span><h1>إدارة الموقع</h1><p>رتّب محتواك الدراسي من مكان واحد.</p></div><button class="button button-secondary" id="logout-button">تسجيل الخروج</button></div>
+    <div class="admin-layout">
+      <aside class="admin-sidebar" aria-label="قائمة الإدارة">
+        <div class="sidebar-caption">إدارة رِواق</div>
+        <button class="admin-tab active" data-admin-tab="overview"><span>▦</span> نظرة عامة</button>
+        <button class="admin-tab" data-admin-tab="courses"><span>▣</span> المراحل والكورسات</button>
+        <button class="admin-tab" data-admin-tab="subjects"><span>▤</span> المواد الدراسية</button>
+        <button class="admin-tab" data-admin-tab="notes"><span>▧</span> الملازم والملفات</button>
+        <button class="admin-tab" data-admin-tab="reports"><span>⚑</span> بلاغات الطلاب</button>
+        <button class="admin-tab" data-admin-tab="users"><span>♙</span> حسابات الطلاب</button>
+        <button class="admin-tab" data-admin-tab="schedule"><span>▦</span> الجدول الدراسي</button>
+        <button class="admin-tab" data-admin-tab="settings"><span>⚙</span> المظهر والتواصل</button>
+        <div class="sidebar-help"><strong>تحتاج مساعدة؟</strong><small>يمكنك تحديث روابط التواصل من إعدادات الموقع.</small></div>
+      </aside>
+      <div class="admin-workspace">
+      <section class="admin-panel overview-panel" id="panel-overview"><div class="panel-heading"><div><h2>أهلاً بك في رِواق</h2><p>هذه نظرة سريعة على محتوى الموقع. اختر قسمًا من القائمة الجانبية للبدء.</p></div></div>
+        <div class="admin-stats"><article><span>المواد</span><strong id="admin-subject-count">0</strong><small>جميع المواد</small></article><article><span>الملازم</span><strong id="admin-note-count">0</strong><small>جميع الروابط</small></article><article><span>المستخدمون</span><strong id="admin-user-count">0</strong><small>الحسابات المسجلة</small></article><article><span>البلاغات المفتوحة</span><strong id="admin-report-count">0</strong><small>تحتاج مراجعة</small></article></div>
+        <div class="quick-actions"><button class="button button-secondary" data-jump="subjects">＋ إضافة مادة</button><button class="button button-secondary" data-jump="notes">＋ إضافة ملزمة</button><button class="button button-secondary" data-jump="settings">⚙ إعدادات التواصل</button></div>
+      </section>
+      <section class="admin-panel" id="panel-courses" hidden><div class="panel-heading"><div><h2>المراحل والكورسات</h2><p>أضف كورسات جديدة، عدّل أسماءها، أو أخفِها عن الطلاب. لا يمكن حذف كورس مرتبط بمواد.</p></div><button class="button button-primary" id="add-course">＋ إضافة كورس</button></div><div id="admin-courses" class="admin-list"></div></section>
+      <section class="admin-panel" id="panel-subjects" hidden><div class="panel-heading"><div><h2>المواد الدراسية</h2><p>أضف مادة أو عدّل اسمها ووصفها وترتيبها.</p></div><button class="button button-primary" id="add-subject">＋ إضافة مادة</button></div><div class="filter-row"><label>الكورس<select id="filter-semester"><option value="all">كل الكورسات</option><option value="1">الكورس الأول</option><option value="2">الكورس الثاني</option></select></label><label class="grow">بحث<input id="subject-filter" placeholder="ابحث باسم المادة..."></label></div><div id="admin-subjects" class="admin-list"></div></section>
+    <section class="admin-panel" id="panel-notes" hidden><div class="panel-heading"><div><h2>الملازم والروابط</h2><p>أضف رابط Google Drive وحدّد المادة المرتبطة به.</p></div><button class="button button-primary" id="add-note">＋ إضافة ملزمة</button></div><div class="filter-row"><label class="grow">بحث<input id="note-filter" placeholder="ابحث باسم الملزمة..."></label></div><div id="admin-notes" class="admin-list"></div></section>
+    <section class="admin-panel" id="panel-reports" hidden><div class="panel-heading"><div><h2>بلاغات الروابط</h2><p>البلاغات التي يرسلها الطلاب عن روابط غير عاملة.</p></div></div><div id="admin-reports" class="admin-list"></div></section>
+    <section class="admin-panel" id="panel-users" hidden><div class="panel-heading"><div><h2>المستخدمون المسجلون</h2><p>الاسم والبريد وتاريخ التسجيل وآخر نشاط مسجّل. لا تظهر كلمات المرور لأي مسؤول.</p></div></div><div class="filter-row"><label class="grow">بحث عن مستخدم<input id="user-filter" placeholder="ابحث بالاسم أو البريد الإلكتروني..."></label></div><div id="admin-users" class="admin-list"></div></section>
+      <section class="admin-panel" id="panel-schedule" hidden><div class="panel-heading"><div><h2>الجدول الدراسي</h2><p>قاعدة بيانات الجدول جاهزة؛ إدارة الجدول من الواجهة ستُستكمل في تحديث لاحق.</p></div></div><div class="notice">تم تجهيز جدول المحاضرات والامتحانات في قاعدة البيانات. لن تظهر أحداث حتى تضيفها عبر SQL أو بعد استكمال محرر الجدول.</div></section>
+      <section class="admin-panel" id="panel-settings" hidden><div class="panel-heading"><div><h2>المظهر والتواصل</h2><p>خصص اسم الموقع وروابط التواصل التي تظهر للطلاب. هذه الإعدادات تحفظ في قاعدة البيانات بعد تشغيل ملف الترقية.</p></div></div>
+        <form id="site-settings-form" class="edit-fields settings-form"><label>اسم الموقع<input name="site_title" maxlength="80" value="رِواق الجامعي" required></label><label>نبذة قصيرة<input name="site_tagline" maxlength="160" value="مرجعك الدراسي، مرتب وبسيط."></label><div class="field-grid"><label>رابط تيليجرام<input name="telegram_url" type="url" placeholder="https://t.me/your_username"></label><label>بريد التواصل<input name="contact_email" type="email" placeholder="you@example.com"></label></div><label>رسالة الترحيب في التواصل<input name="contact_message" maxlength="180" value="تواصل معي للاستفسارات والاقتراحات."></label><div class="form-actions"><button class="button button-primary" type="submit" id="save-settings">حفظ الإعدادات</button></div><p class="form-message" id="settings-message" role="status"></p></form>
+        <div class="notice" style="margin-top:20px"><strong>ملاحظة:</strong> غيّر روابط التواصل إلى روابطك الحقيقية قبل نشر الموقع. لا تضع مفاتيح سرية أو كلمات مرور في هذه الصفحة.</div>
+      </section>
+      </div>
+    </div>
+  </section>
+</main>
+<dialog id="edit-dialog" class="edit-dialog"><form id="edit-form"><div class="dialog-head"><div><span class="eyebrow muted" id="edit-eyebrow">تعديل المحتوى</span><h2 id="edit-title">إضافة مادة</h2></div><button type="button" class="icon-button" id="edit-close" aria-label="إغلاق">×</button></div><div id="edit-fields" class="edit-fields"></div><p id="edit-message" class="form-message" role="status"></p><div class="form-actions"><button type="button" class="button button-secondary" id="edit-cancel">إلغاء</button><button type="submit" class="button button-primary" id="edit-save">حفظ التغييرات</button></div></form></dialog>
+<div id="admin-toast" class="toast" role="status" aria-live="polite"></div>
+</body></html>
